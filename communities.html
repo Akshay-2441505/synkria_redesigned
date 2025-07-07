@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communities - Synkria</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f4ff',
+                            100: '#e0e9ff',
+                            200: '#c7d6fe',
+                            300: '#a5b8fc',
+                            400: '#8b93f8',
+                            500: '#7c6df0',
+                            600: '#6d4de8',
+                            700: '#5b3bd5',
+                            800: '#4c32b3',
+                            900: '#402b8f'
+                        },
+                        secondary: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Flowbite CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    
+    <style>
+        /* Custom styles for enhanced animations */
+        .hero-gradient {
+            background: linear-gradient(135deg, #7c6df0 0%, #ec4899 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #7c6df0, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-ripple::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-ripple:hover::before {
+            left: 100%;
+        }
+        
+        /* Activity indicators */
+        .activity-very-active {
+            color: #10b981;
+        }
+        
+        .activity-active {
+            color: #3b82f6;
+        }
+        
+        .activity-moderate {
+            color: #f59e0b;
+        }
+        
+        .activity-new {
+            color: #6b7280;
+        }
+        
+        /* Community showcase floating cards */
+        .floating-community-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 1rem;
+            color: white;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-community-card:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-community-card:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-community-card:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        .floating-community-card:nth-child(4) {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+        .card-hover {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50 transition-all duration-300" id="mainNavbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <i class="fas fa-network-wired text-2xl text-gradient"></i>
+                        <span class="text-2xl font-bold font-serif text-gray-900">Synkria</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary-600 font-medium transition-colors duration-200">Home</a>
+                    <a href="communities.html" class="text-primary-600 font-medium border-b-2 border-primary-500 pb-1">Communities</a>
+                    <a href="networking.html" class="text-gray-600 hover:text-primary-600 font-medium transition-colors duration-200">Networking</a>
+                    <a href="#" class="text-gray-600 hover:text-primary-600 font-medium transition-colors duration-200">Recruitment</a>
+                    <a href="#" class="text-gray-600 hover:text-primary-600 font-medium transition-colors duration-200">About</a>
+                </div>
+                
+                <!-- User Actions -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2 text-gray-600 hover:text-primary-600 transition-colors duration-200">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 bg-secondary-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <!-- User Profile -->
+                    <div class="flex items-center space-x-3 cursor-pointer group">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
+                             alt="Profile" class="w-8 h-8 rounded-full border-2 border-primary-200 group-hover:border-primary-400 transition-colors duration-200">
+                        <span class="text-gray-700 font-medium group-hover:text-primary-600 transition-colors duration-200">John Doe</span>
+                        <i class="fas fa-chevron-down text-gray-400 group-hover:text-primary-600 transition-all duration-200 group-hover:rotate-180"></i>
+                    </div>
+                    
+                    <!-- CTA Button -->
+                    <button class="btn-ripple inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-medium rounded-xl hover:from-primary-600 hover:to-secondary-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        Create Community
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-100 transition-colors duration-200" 
+                        data-collapse-toggle="mobile-menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+                    <a href="index.html" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200">Home</a>
+                    <a href="communities.html" class="block px-3 py-2 text-primary-600 font-medium bg-primary-50 rounded-md">Communities</a>
+                    <a href="networking.html" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200">Networking</a>
+                    <a href="#" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200">Recruitment</a>
+                    <a href="#" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200">About</a>
+                    <div class="pt-4 border-t border-gray-200">
+                        <button class="w-full btn-ripple inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-medium rounded-xl">
+                            Create Community
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center hero-gradient overflow-hidden pt-16">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-float"></div>
+            <div class="absolute top-40 right-20 w-32 h-32 bg-white/5 rounded-full animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-40 left-20 w-16 h-16 bg-white/10 rounded-full animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute bottom-20 right-10 w-24 h-24 bg-white/5 rounded-full animate-float" style="animation-delay: 0.5s;"></div>
+        </div>
+        
+        <!-- Floating Community Cards -->
+        <div class="communities-showcase absolute inset-0">
+            <div class="floating-community-card">
+                <div class="flex items-center space-x-3 mb-2">
+                    <i class="fas fa-code text-primary-300"></i>
+                    <span class="font-semibold">Web Dev Hub</span>
+                </div>
+                <p class="text-sm opacity-80">2.3k members</p>
+            </div>
+            <div class="floating-community-card">
+                <div class="flex items-center space-x-3 mb-2">
+                    <i class="fas fa-brain text-secondary-300"></i>
+                    <span class="font-semibold">AI & ML</span>
+                </div>
+                <p class="text-sm opacity-80">1.8k members</p>
+            </div>
+            <div class="floating-community-card">
+                <div class="flex items-center space-x-3 mb-2">
+                    <i class="fas fa-palette text-primary-300"></i>
+                    <span class="font-semibold">Design Masters</span>
+                </div>
+                <p class="text-sm opacity-80">1.4k members</p>
+            </div>
+            <div class="floating-community-card">
+                <div class="flex items-center space-x-3 mb-2">
+                    <i class="fas fa-chart-line text-secondary-300"></i>
+                    <span class="font-semibold">Data Science</span>
+                </div>
+                <p class="text-sm opacity-80">987 members</p>
+            </div>
+        </div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
+            <div class="inline-flex items-center px-4 py-2 glass-effect rounded-full text-sm font-medium mb-6">
+                <i class="fas fa-users mr-2"></i>
+                Join 50,000+ Active Learners
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold font-serif mb-6">
+                Discover Your <span class="text-yellow-300">Learning</span> Community
+            </h1>
+            <p class="text-xl md:text-2xl font-light mb-8 opacity-90 max-w-3xl mx-auto">
+                Connect with passionate learners, share knowledge, and grow together in communities that match your interests and goals.
+            </p>
+            
+            <!-- Hero Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 max-w-2xl mx-auto">
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold" data-count="150">0</div>
+                    <div class="text-sm opacity-80">Communities</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold" data-count="50000">0</div>
+                    <div class="text-sm opacity-80">Members</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold" data-count="25000">0</div>
+                    <div class="text-sm opacity-80">Posts</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold" data-count="500">0</div>
+                    <div class="text-sm opacity-80">Resources</div>
+                </div>
+            </div>
+            
+            <!-- Hero Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button class="btn-ripple inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl hero-btn-primary">
+                    <span>Explore Communities</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button class="btn-ripple inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-primary-600 transition-all duration-200 hero-btn-secondary">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span>Create Community</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white opacity-80 animate-bounce">
+            <i class="fas fa-chevron-down text-lg"></i>
+        </div>
+    </section>
+
+    <!-- Search and Filters Section -->
+    <section class="py-16 bg-white" id="searchSection">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Search Box -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="relative">
+                    <input type="text" id="communitySearch" 
+                           class="w-full px-6 py-4 pl-14 text-lg border-2 border-gray-200 rounded-2xl focus:border-primary-500 focus:ring-0 transition-colors duration-200" 
+                           placeholder="Search communities by name, topic, or keyword...">
+                    <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+                    <button class="search-btn absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-6 py-2 rounded-xl hover:from-primary-600 hover:to-secondary-600 transition-all duration-200">
+                        Search
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Filters -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="filter-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="categoryFilter" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-primary-500 focus:ring-0 transition-colors duration-200">
+                        <option value="all">All Categories</option>
+                        <option value="technology">Technology</option>
+                        <option value="design">Design</option>
+                        <option value="business">Business</option>
+                        <option value="science">Science</option>
+                        <option value="arts">Arts</option>
+                        <option value="language">Language</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Activity Level</label>
+                    <select id="activityFilter" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-primary-500 focus:ring-0 transition-colors duration-200">
+                        <option value="all">All Levels</option>
+                        <option value="very-active">Very Active</option>
+                        <option value="active">Active</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="new">New</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Community Size</label>
+                    <select id="sizeFilter" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-primary-500 focus:ring-0 transition-colors duration-200">
+                        <option value="all">All Sizes</option>
+                        <option value="large">Large (1000+)</option>
+                        <option value="medium">Medium (100-999)</option>
+                        <option value="small">Small (10-99)</option>
+                        <option value="intimate">Intimate (< 10)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                    <select id="sortFilter" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-primary-500 focus:ring-0 transition-colors duration-200">
+                        <option value="members">Most Members</option>
+                        <option value="activity">Most Active</option>
+                        <option value="newest">Newest</option>
+                        <option value="name">Name A-Z</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- View Toggle -->
+            <div class="flex justify-between items-center">
+                <p class="text-gray-600">
+                    <span id="resultsCount">150</span> communities found
+                </p>
+                <div class="flex bg-gray-100 rounded-xl p-1">
+                    <button class="view-btn px-4 py-2 text-sm font-medium rounded-lg bg-white text-primary-600 shadow-sm" data-view="grid">
+                        <i class="fas fa-th mr-2"></i>Grid
+                    </button>
+                    <button class="view-btn px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-primary-600 transition-colors duration-200" data-view="list">
+                        <i class="fas fa-list mr-2"></i>List
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Communities Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center px-4 py-2 bg-primary-50 text-primary-600 rounded-full text-sm font-medium mb-4">
+                    <i class="fas fa-star mr-2"></i>
+                    Featured Communities
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold font-serif text-gray-900 mb-6">
+                    Popular <span class="text-gradient">Learning Hubs</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Join these thriving communities where knowledge flows freely and connections are made daily.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuredGrid">
+                <!-- Featured communities will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- All Communities Section -->
+    <section class="py-16 bg-white" id="professionalsSection">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold font-serif text-gray-900 mb-6">
+                    All <span class="text-gradient">Communities</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover communities that match your interests and learning goals.
+                </p>
+            </div>
+            
+            <div class="communities-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="communitiesGrid">
+                <!-- All communities will be dynamically loaded here -->
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="btn-ripple inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-secondary-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl" id="loadMoreCommunities">
+                    <span>Load More Communities</span>
+                    <i class="fas fa-arrow-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 hero-gradient">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold font-serif text-white mb-6">
+                Ready to build your community?
+            </h2>
+            <p class="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                Create a space where learners can connect, share knowledge, and grow together around topics you're passionate about.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button class="btn-ripple inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl cta-btn-primary">
+                    <i class="fas fa-plus mr-2"></i>
+                    <span>Create Community</span>
+                </button>
+                <button class="btn-ripple inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-primary-600 transition-all duration-200">
+                    <i class="fas fa-question-circle mr-2"></i>
+                    <span>Learn More</span>
+                </button>
+            </div>
+            
+            <!-- CTA Features -->
+            <div class="grid md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+                <div class="text-center">
+                    <i class="fas fa-users text-3xl text-white/80 mb-3"></i>
+                    <h4 class="font-semibold text-white mb-2">Build Your Audience</h4>
+                    <p class="text-white/80 text-sm">Attract like-minded learners and grow your community organically.</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-tools text-3xl text-white/80 mb-3"></i>
+                    <h4 class="font-semibold text-white mb-2">Powerful Tools</h4>
+                    <p class="text-white/80 text-sm">Access moderation tools, analytics, and engagement features.</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-rocket text-3xl text-white/80 mb-3"></i>
+                    <h4 class="font-semibold text-white mb-2">Scale & Grow</h4>
+                    <p class="text-white/80 text-sm">Expand your reach and impact with our growth-focused platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Modal -->
+    <div id="communityModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="bg-white px-6 pt-6 pb-4">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center" id="modalCommunityAvatar">
+                                <i class="fas fa-code text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900" id="modalCommunityName">Community Name</h3>
+                                <p class="text-gray-600" id="modalCommunityMeta">2,347 members • Very Active</p>
+                                <div class="flex space-x-2 mt-2" id="modalCommunityTags">
+                                    <span class="px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-sm">JavaScript</span>
+                                    <span class="px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-sm">React</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="text-gray-400 hover:text-gray-600 transition-colors duration-200" onclick="document.getElementById('communityModal').classList.add('hidden')">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Modal Tabs -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-8">
+                            <button class="modal-tab-btn border-b-2 border-primary-500 text-primary-600 py-2 px-1 text-sm font-medium" data-tab="posts">
+                                Posts
+                            </button>
+                            <button class="modal-tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium" data-tab="resources">
+                                Resources
+                            </button>
+                            <button class="modal-tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium" data-tab="events">
+                                Events
+                            </button>
+                            <button class="modal-tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium" data-tab="members">
+                                Members
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <!-- Modal Content -->
+                    <div class="modal-tab-content" id="posts-tab">
+                        <div class="posts-content">
+                            <!-- Posts content will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="modal-tab-content hidden" id="resources-tab">
+                        <div class="resources-content">
+                            <!-- Resources content will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="modal-tab-content hidden" id="events-tab">
+                        <div class="events-content">
+                            <!-- Events content will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="modal-tab-content hidden" id="members-tab">
+                        <div class="members-content">
+                            <!-- Members content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
+                    <div class="flex space-x-6 text-sm text-gray-600">
+                        <span><i class="fas fa-users mr-1"></i><span id="modalMemberCount">2,347</span> members</span>
+                        <span><i class="fas fa-edit mr-1"></i><span id="modalPostCount">156</span> posts</span>
+                        <span><i class="fas fa-file mr-1"></i><span id="modalResourceCount">23</span> resources</span>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="btn-ripple inline-flex items-center px-6 py-2 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-medium rounded-xl hover:from-primary-600 hover:to-secondary-600 transition-all duration-200">
+                            <i class="fas fa-plus mr-2"></i>
+                            Join Community
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+                <!-- Brand -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <i class="fas fa-network-wired text-2xl text-gradient"></i>
+                        <span class="text-2xl font-bold font-serif">Synkria</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Empowering learning communities and connecting professionals worldwide through innovative educational technology.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors duration-200">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Platform -->
+                <div>
+                    <h6 class="font-semibold text-white mb-4">Platform</h6>
+                    <ul class="space-y-3">
+                        <li><a href="communities.html" class="text-gray-400 hover:text-white transition-colors duration-200">Communities</a></li>
+                        <li><a href="networking.html" class="text-gray-400 hover:text-white transition-colors duration-200">Networking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Recruitment</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources -->
+                <div>
+                    <h6 class="font-semibold text-white mb-4">Resources</h6>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">API Docs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Guidelines</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h6 class="font-semibold text-white mb-4">Company</h6>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Press</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2024 Synkria. All rights reserved.
+                </p>
+                <p class="text-gray-400 text-sm mt-4 md:mt-0">
+                    Made with <i class="fas fa-heart text-red-500"></i> for learners worldwide
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    
+    <!-- Custom JavaScript will be loaded here -->
+    <script src="js/global.js"></script>
+    <script src="js/communities.js"></script>
+</body>
+</html>
+

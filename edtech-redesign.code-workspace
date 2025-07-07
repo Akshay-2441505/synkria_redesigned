@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../home/ubuntu/edtech-redesign"
+		},
+		{
+			"name": "Synkria",
+			"path": "../../Synkria/Synkria"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Synkria"
+	}
+}
