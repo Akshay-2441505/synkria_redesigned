@@ -16,33 +16,46 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0f4ff',
-                            100: '#e0e9ff',
-                            200: '#c7d6fe',
-                            300: '#a5b8fc',
-                            400: '#8b93f8',
-                            500: '#7c6df0',
-                            600: '#6d4de8',
-                            700: '#5b3bd5',
-                            800: '#4c32b3',
-                            900: '#402b8f'
+                            50: '#e6e8f5',
+                            100: '#cfd2e6',
+                            200: '#aeb3d1',
+                            300: '#7d82b0',
+                            400: '#4a4e7c',
+                            500: '#23264a', // deep navy
+                            600: '#181c3a', // deeper navy
+                            700: '#10122a',
+                            800: '#0a0c1a',
+                            900: '#05060d'
                         },
-                        secondary: {
-                            50: '#fdf2f8',
-                            100: '#fce7f3',
-                            200: '#fbcfe8',
-                            300: '#f9a8d4',
-                            400: '#f472b6',
-                            500: '#ec4899',
-                            600: '#db2777',
-                            700: '#be185d',
-                            800: '#9d174d',
-                            900: '#831843'
+                        accent: {
+                            500: '#e53945', // vibrant red
+                        },
+                        white: '#ffffff',
+                        gray: {
+                            100: '#f5f6fa',
+                            200: '#e6e8f0',
+                            300: '#cfd2e0',
+                            400: '#b0b3c6',
+                            500: '#8a8da6',
+                            600: '#6a6d85',
+                            700: '#4a4c5c',
+                            800: '#2a2b33',
+                            900: '#181a1f'
                         }
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Oswald', 'Inter', 'system-ui', 'sans-serif'],
                         'serif': ['Playfair Display', 'serif']
+                    },
+                    borderRadius: {
+                        'xl': '1.25rem',
+                        '2xl': '2rem',
+                        '3xl': '3rem',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.18)',
+                        'accent': '0 4px 24px 0 rgba(229, 57, 69, 0.18)'
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
@@ -82,15 +95,20 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     
     <style>
+        body {
+            background: #181c3a !important;
+            color: #fff;
+        }
         /* Custom styles for enhanced animations */
         .hero-gradient {
-            background: linear-gradient(135deg, #7c6df0 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #181c3a 0%, #23264a 100%) !important;
         }
         
         .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         }
         
         .text-gradient {
@@ -102,16 +120,22 @@
         
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         }
         
         .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 48px 0 rgba(229, 57, 69, 0.18);
         }
         
         .btn-ripple {
             position: relative;
             overflow: hidden;
+            background: #e53945;
+            color: #fff;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 24px 0 rgba(229, 57, 69, 0.18);
         }
         
         .btn-ripple::before {
@@ -134,9 +158,9 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #7c6df0 0%, #ec4899 100%);
+            width: 100vw;
+            height: 100vh;
+            background: #181c3a;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -147,6 +171,25 @@
         .preloader.hidden {
             opacity: 0;
             pointer-events: none;
+        }
+        
+        .preloader-svg {
+            display: block;
+            margin: 0 auto 2rem auto;
+        }
+        
+        .preloader-text {
+            color: #fff;
+            font-family: 'Inter', 'system-ui', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            text-align: center;
+            opacity: 0.7;
+        }
+        
+        .preloader-text span {
+            color: #e53945;
+            font-weight: bold;
         }
         
         /* Animated word styles */
@@ -211,8 +254,8 @@
         }
         
         .interest-card.selected {
-            background: linear-gradient(135deg, #7c6df0, #ec4899);
-            color: white;
+            background: #e53945;
+            color: #fff;
             transform: scale(1.05);
         }
         
@@ -231,7 +274,7 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            color: white;
+            color: #fff;
             font-size: 0.875rem;
             opacity: 0.8;
             animation: bounce 2s infinite;
@@ -241,13 +284,15 @@
 <body class="font-sans bg-gray-50 text-gray-900">
     <!-- Preloader -->
     <div id="preloader" class="preloader">
-        <div class="text-center text-white">
-            <div class="flex items-center justify-center mb-8">
-                <i class="fas fa-network-wired text-6xl animate-pulse-slow mr-4"></i>
-                <span class="text-4xl font-bold font-serif">Synkria</span>
-            </div>
-            <div class="w-64 h-1 bg-white/20 rounded-full overflow-hidden">
-                <div class="h-full bg-white rounded-full animate-pulse" style="width: 100%;"></div>
+        <div class="text-center">
+            <svg class="preloader-svg" width="180" height="120" viewBox="0 0 180 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="90,10 90,40 120,60 120,90 150,110" stroke="#b0b3c6" stroke-width="2" fill="none"/>
+                <polyline points="90,40 60,60 60,90 30,110" stroke="#b0b3c6" stroke-width="2" fill="none"/>
+                <polyline points="90,40 90,70 120,90" stroke="#b0b3c6" stroke-width="2" fill="none"/>
+                <polyline points="90,70 60,90" stroke="#b0b3c6" stroke-width="2" fill="none"/>
+            </svg>
+            <div class="preloader-text">
+                <span>LOADING</span> ECOSYSTEM
             </div>
         </div>
     </div>
@@ -348,11 +393,11 @@
                     Empowering Learning Communities
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <button class="btn-ripple inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    <button class="btn-ripple hero-btn-primary inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-xl hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
                         <span>Explore Communities</span>
                         <i class="fas fa-arrow-right ml-2"></i>
                     </button>
-                    <button class="btn-ripple inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-primary-600 transition-all duration-200">
+                    <button class="btn-ripple hero-btn-secondary inline-flex items-center px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-primary-600 transition-all duration-200">
                         <i class="fas fa-play mr-2"></i>
                         <span>Watch Demo</span>
                     </button>
@@ -376,7 +421,7 @@
                     Personalize Your Experience
                 </div>
                 <h2 class="text-4xl md:text-5xl font-bold font-serif text-gray-900 mb-6">
-                    Select Your <span class="text-gradient">Interests</span>
+                    Let's Tailor This<span class="text-gradient"> For You</span>
                 </h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Choose topics that inspire you and we'll curate personalized content, communities, and networking opportunities just for you.
@@ -421,102 +466,200 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 bg-gray-50" id="featuresSection">
+    <section class="pt-8 pb-0 bg-gradient-to-br from-primary-500 to-secondary-500" id="featuresSection">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center">
                 <div class="inline-flex items-center px-4 py-2 bg-primary-50 text-primary-600 rounded-full text-sm font-medium mb-4">
                     <i class="fas fa-star mr-2"></i>
                     Platform Features
                 </div>
-                <h2 class="text-4xl md:text-5xl font-bold font-serif text-gray-900 mb-6">
+                <h2 class="text-4xl md:text-5xl font-bold font-serif text-white mb-6">
                     Everything you need to <span class="text-gradient">succeed</span>
                 </h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <p class="text-xl text-white/90 max-w-3xl mx-auto">
                     Connect with communities, network with professionals, and discover opportunities tailored to your interests—all in one place.
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature Card 1 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-users text-white text-2xl"></i>
+            <!-- Horizontal Scroll Container -->
+            <div id="featuresHorizontalScroll" class="horizontal-scroll-container relative">
+                <button id="featuresPrevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-primary-100 text-primary-700 rounded-full shadow p-2 transition hidden md:block" aria-label="Previous">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="horizontal-scroll-inner">
+                    <!-- Feature Cards (unchanged) -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-users text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Learning Communities</h3>
+                        <p class="text-gray-600 mb-6">Join vibrant communities of learners and experts. Share knowledge, collaborate on projects, and grow together.</p>
+                        <a href="communities.html" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            Explore Communities
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Learning Communities</h3>
-                    <p class="text-gray-600 mb-6">Join vibrant communities of learners and experts. Share knowledge, collaborate on projects, and grow together.</p>
-                    <a href="communities.html" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        Explore Communities
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <!-- Feature Card 2 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-network-wired text-white text-2xl"></i>
+                    <!-- Feature Card 2 -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-network-wired text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Professional Networking</h3>
+                        <p class="text-gray-600 mb-6">Connect with industry professionals, mentors, and peers. Build meaningful relationships that advance your career.</p>
+                        <a href="networking.html" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            Start Networking
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Professional Networking</h3>
-                    <p class="text-gray-600 mb-6">Connect with industry professionals, mentors, and peers. Build meaningful relationships that advance your career.</p>
-                    <a href="networking.html" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        Start Networking
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <!-- Feature Card 3 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-briefcase text-white text-2xl"></i>
+                    <!-- Feature Card 3 -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Career Opportunities</h3>
+                        <p class="text-gray-600 mb-6">Discover job opportunities, internships, and freelance projects that match your skills and interests.</p>
+                        <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            Find Opportunities
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Career Opportunities</h3>
-                    <p class="text-gray-600 mb-6">Discover job opportunities, internships, and freelance projects that match your skills and interests.</p>
-                    <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        Find Opportunities
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <!-- Feature Card 4 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                    <!-- Feature Card 4 -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Skill Development</h3>
+                        <p class="text-gray-600 mb-6">Access courses, workshops, and resources to continuously improve your skills and stay ahead in your field.</p>
+                        <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            Learn More
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Skill Development</h3>
-                    <p class="text-gray-600 mb-6">Access courses, workshops, and resources to continuously improve your skills and stay ahead in your field.</p>
-                    <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        Learn More
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <!-- Feature Card 5 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    <!-- Feature Card 5 -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Progress Tracking</h3>
+                        <p class="text-gray-600 mb-6">Monitor your learning journey, track achievements, and celebrate milestones with detailed analytics.</p>
+                        <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            View Dashboard
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Progress Tracking</h3>
-                    <p class="text-gray-600 mb-6">Monitor your learning journey, track achievements, and celebrate milestones with detailed analytics.</p>
-                    <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        View Dashboard
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                
-                <!-- Feature Card 6 -->
-                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg">
-                    <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fas fa-globe text-white text-2xl"></i>
+                    <!-- Feature Card 6 -->
+                    <div class="card-hover bg-white rounded-2xl p-8 shadow-lg min-w-[340px] max-w-[340px]">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-globe text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Global Reach</h3>
+                        <p class="text-gray-600 mb-6">Connect with learners and professionals from around the world. Experience diverse perspectives and cultures.</p>
+                        <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
+                            Go Global
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Global Reach</h3>
-                    <p class="text-gray-600 mb-6">Connect with learners and professionals from around the world. Experience diverse perspectives and cultures.</p>
-                    <a href="#" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors duration-200">
-                        Go Global
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
                 </div>
+                <button id="featuresNextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-primary-100 text-primary-700 rounded-full shadow p-2 transition hidden md:block" aria-label="Next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
+
+    <style>
+    .horizontal-scroll-container {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        margin: 2rem 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .horizontal-scroll-inner {
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        height: 100%;
+        align-items: center;
+        padding: 0 1rem;
+        will-change: transform;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .horizontal-scroll-inner > div {
+        flex: 0 0 auto;
+        height: fit-content;
+        margin-right: 1rem;
+    }
+    
+    .horizontal-scroll-inner > div:last-child {
+        margin-right: 0;
+    }
+    
+    /* Hide scrollbar for horizontal scroll */
+    .horizontal-scroll-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* Progress bar styles */
+    .stripe-scroll-progress {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 1rem;
+        width: 60vw;
+        max-width: 400px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 3px;
+        overflow: hidden;
+        z-index: 20;
+    }
+    
+    .stripe-scroll-progress > div {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #7c6df0, #ec4899);
+        transition: width 0.2s;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .horizontal-scroll-container {
+            height: 350px;
+            margin: 1rem 0;
+        }
+        
+        .horizontal-scroll-inner {
+            padding: 0 0.5rem;
+        }
+        
+        .horizontal-scroll-inner > div {
+            margin-right: 0.5rem;
+            min-width: 280px;
+            max-width: 280px;
+        }
+        
+        .stripe-scroll-progress {
+            width: 80vw;
+            bottom: 0.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .horizontal-scroll-container {
+            height: 320px;
+        }
+        
+        .horizontal-scroll-inner > div {
+            min-width: 260px;
+            max-width: 260px;
+        }
+    }
+    </style>
 
     <!-- News Section -->
     <section class="py-20 bg-white" id="newsSection">
@@ -545,7 +688,55 @@
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="newsGrid">
-                <!-- News articles will be dynamically loaded here -->
+                <!-- News Article 1 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <img src="assets/FutureOfAIiNEd.jpg" alt="The Future of AI in Education" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">Technology</span>
+                            <span class="text-xs text-gray-400">11 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">The Future of AI in Education</h3>
+                        <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="font-bold">Author 1</span>
+                            <span>6/30/2025</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- News Article 2 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <img src="assets/RemoteLearnngBest.jpg" alt="Remote Learning Best Practices" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">Education</span>
+                            <span class="text-xs text-gray-400">11 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Remote Learning Best Practices</h3>
+                        <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="font-bold">Author 2</span>
+                            <span>7/6/2025</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- News Article 3 -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <img src="assets/CarrierGrowthInTech.jpg" alt="Career Growth in Tech Industry" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">Career</span>
+                            <span class="text-xs text-gray-400">4 min read</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Career Growth in Tech Industry</h3>
+                        <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="font-bold">Author 3</span>
+                            <span>7/6/2025</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more articles as needed -->
             </div>
             
             <div class="text-center mt-12">

@@ -95,23 +95,23 @@ class PreloaderManager {
         // Animate preloader elements
         const tl = gsap.timeline();
         
-        tl.from('.preloader .fas', {
-            scale: 0,
-            rotation: 180,
-            duration: 0.8,
-            ease: "back.out(1.7)"
-        })
-        .from('.preloader span', {
+        // tl.from('.preloader .fas', {
+        //     scale: 0,
+        //     rotation: 180,
+        //     duration: 0.8,
+        //     ease: "back.out(1.7)"
+        // });
+        tl.from('.preloader span', {
             y: 30,
             opacity: 0,
             duration: 0.6,
             ease: "power2.out"
-        }, "-=0.4")
-        .from('.preloader .w-64', {
-            scaleX: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        }, "-=0.2");
+        }, "-=0.4");
+        // tl.from('.preloader .w-64', {
+        //     scaleX: 0,
+        //     duration: 0.8,
+        //     ease: "power2.out"
+        // }, "-=0.2");
         
         // Hide preloader after animations complete
         setTimeout(() => {
@@ -139,20 +139,25 @@ class PreloaderManager {
     
     triggerPageAnimations() {
         // Animate navigation
-        gsap.from('#mainNavbar', {
-            y: -100,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        });
+
+        if (document.querySelector('#mainNavbar')) {
+            gsap.from('#mainNavbar', {
+                y: -100,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
         
         // Animate page content
-        gsap.from('.hero-section, .networking-hero, #heroSection', {
-            opacity: 0,
-            duration: 1,
-            ease: "power2.out",
-            delay: 0.2
-        });
+        if (document.querySelector('.hero-section') || document.querySelector('.networking-hero') || document.querySelector('#heroSection')) {
+            gsap.from('.hero-section, .networking-hero, #heroSection', {
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out",
+                delay: 0.2
+            });
+        }
     }
 }
 

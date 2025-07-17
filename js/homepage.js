@@ -17,6 +17,7 @@ class HeroAnimationManager {
         this.isAnimating = false;
         
         this.init();
+        // Removed fallback setTimeout for .brand-showcase
     }
     
     init() {
@@ -114,14 +115,16 @@ class HeroAnimationManager {
             opacity: 0,
             duration: 0.8,
             ease: "power2.out"
-        }, "-=0.5")
-        .from('.hero-btn-primary, .hero-btn-secondary', {
-            y: 30,
-            opacity: 0,
-            duration: 0.6,
-            stagger: 0.2,
-            ease: "power2.out"
-        }, "-=0.3");
+        }, "-=0.5");
+        if (document.querySelector('.hero-btn-primary') || document.querySelector('.hero-btn-secondary')) {
+            tl.from('.hero-btn-primary, .hero-btn-secondary', {
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.2,
+                ease: "power2.out"
+            }, "-=0.3");
+        }
     }
     
     setupHeroInteractions() {
@@ -608,23 +611,146 @@ class FeaturesAnimationManager {
         
         this.setupFeatureAnimations();
         this.setupFeatureInteractions();
+        this.setupResizeHandler();
+    }
+    
+    setupResizeHandler() {
+        // Handle window resize to recalculate scroll distances
+        const resizeHandler = SynkriaGlobal.utils.debounce(() => {
+            const scrollContainer = document.getElementById('featuresHorizontalScroll');
+            const scrollInner = scrollContainer ? scrollContainer.querySelector('.horizontal-scroll-inner') : null;
+            
+            if (scrollContainer && scrollInner) {
+                // Kill existing ScrollTrigger
+                ScrollTrigger.getAll().forEach(trigger => {
+                    if (trigger.vars.trigger === scrollContainer) {
+                        trigger.kill();
+                    }
+                });
+                // Reinitialize horizontal scroll
+                // setTimeout(() => {
+                //     this.initializeHorizontalScroll(scrollContainer, scrollInner);
+                // }, 100);
+            }
+        }, 250);
+        
+        window.addEventListener('resize', resizeHandler);
     }
     
     setupFeatureAnimations() {
-        // Animate feature cards on scroll
-        ScrollTrigger.create({
-            trigger: this.featuresSection,
-            start: "top 70%",
-            onEnter: () => {
-                gsap.from(this.featureCards, {
-                    y: 60,
-                    opacity: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: "power2.out"
-                });
+        // Simple carousel/slider for features section with autoplay
+        const scrollContainer = document.getElementById('featuresHorizontalScroll');
+        const scrollInner = scrollContainer ? scrollContainer.querySelector('.horizontal-scroll-inner') : null;
+        const cards = scrollInner ? Array.from(scrollInner.children) : [];
+        const prevBtn = document.getElementById('featuresPrevBtn');
+        const nextBtn = document.getElementById('featuresNextBtn');
+        if (!scrollContainer || !scrollInner || !cards.length) return;
+
+        function getCardsPerView() {
+            if (window.innerWidth < 640) return 1;
+            if (window.innerWidth < 1024) return 2;
+            return 3;
+        }
+
+        let currentIndex = 0;
+        let cardsPerView = getCardsPerView();
+        let autoplayInterval = null;
+        // Removed isHovered logic
+
+        function updateCarousel() {
+            cardsPerView = getCardsPerView();
+            if (currentIndex > cards.length - cardsPerView) {
+                currentIndex = Math.max(0, cards.length - cardsPerView);
+            }
+            const cardWidth = cards[0].offsetWidth;
+            const gap = parseInt(window.getComputedStyle(cards[0]).marginRight) || 0;
+            const offset = (cardWidth + gap) * currentIndex;
+            scrollInner.style.transform = `translateX(-${offset}px)`;
+            if (prevBtn) prevBtn.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
+            if (nextBtn) nextBtn.style.visibility = currentIndex >= cards.length - cardsPerView ? 'hidden' : 'visible';
+        }
+
+        function goToNext() {
+            if (currentIndex < cards.length - cardsPerView) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Loop to start
+            }
+            updateCarousel();
+        }
+
+        function goToPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = cards.length - cardsPerView; // Loop to end
+            }
+            updateCarousel();
+        }
+
+        function startAutoplay() {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+            autoplayInterval = setInterval(() => {
+                goToNext(); // Always auto-scroll, never pause
+            }, 3000);
+        }
+
+        function stopAutoplay() {
+            if (autoplayInterval) clearInterval(autoplayInterval);
+        }
+
+        if (prevBtn) {
+            prevBtn.classList.remove('hidden');
+            prevBtn.onclick = () => {
+                goToPrev();
+                startAutoplay(); // Reset timer
+            };
+        }
+        if (nextBtn) {
+            nextBtn.classList.remove('hidden');
+            nextBtn.onclick = () => {
+                goToNext();
+                startAutoplay(); // Reset timer
+            };
+        }
+
+        // Touch/swipe support
+        let startX = 0;
+        let isDragging = false;
+        let dragOffset = 0;
+        scrollInner.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            dragOffset = 0;
+        });
+        scrollInner.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            dragOffset = e.touches[0].clientX - startX;
+        });
+        scrollInner.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            if (dragOffset < -50 && currentIndex < cards.length - cardsPerView) {
+                currentIndex++;
+                updateCarousel();
+                startAutoplay(); // Reset timer
+            } else if (dragOffset > 50 && currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+                startAutoplay(); // Reset timer
             }
         });
+
+        // Removed mouseenter/mouseleave event listeners for autoplay pause
+
+        // Responsive
+        window.addEventListener('resize', () => {
+            updateCarousel();
+        });
+
+        // Initial update and autoplay
+        updateCarousel();
+        startAutoplay();
     }
     
     setupFeatureInteractions() {

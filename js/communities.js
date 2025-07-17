@@ -490,16 +490,16 @@ class CommunitiesDataManager {
     
     createCommunityCard(community) {
         const card = document.createElement('div');
-        card.className = 'community-card card-hover bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer';
+        card.className = 'community-card glass-card animated-border p-8 rounded-3xl shadow-xl mb-4 cursor-pointer';
         card.setAttribute('data-community-id', community.id);
         
         card.innerHTML = `
-            <div class="aspect-video bg-gray-200 overflow-hidden">
+            <div class="aspect-video bg-gray-200 overflow-hidden rounded-2xl mb-4">
                 <img src="${community.image}" alt="${community.name}" 
-                     class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                     class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl"
                      onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop'">
             </div>
-            <div class="p-6">
+            <div>
                 <div class="flex items-center justify-between mb-3">
                     <span class="px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-sm font-medium capitalize">
                         ${community.category}
@@ -511,7 +511,7 @@ class CommunitiesDataManager {
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2">${community.name}</h3>
                 <p class="text-gray-600 mb-4 line-clamp-2">${community.description}</p>
-                <div class="flex flex-wrap gap-2 mb-4">
+                <div class="card-tags flex flex-wrap gap-2 mb-4">
                     ${community.tags.map(tag => `
                         <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-xs">${tag}</span>
                     `).join('')}
@@ -795,4 +795,140 @@ if (document.readyState === 'loading') {
 } else {
     new CommunitiesPage();
 }
+
+function addTagRevealAnimation(cards) {
+    cards.forEach(card => {
+        const tags = card.querySelectorAll('.card-tags > span');
+        if (tags.length) {
+            gsap.set(tags, { y: 20, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: card,
+                start: 'top 85%',
+                once: true,
+                onEnter: () => {
+                    gsap.to(tags, {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.08,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+    });
+}
+
+function addMagneticHoverToCards() {
+    const cards = document.querySelectorAll('#communitiesGrid .glass-card');
+    cards.forEach(card => {
+        let hovering = false;
+        let rafId;
+        let mouse = { x: 0, y: 0 };
+        let cardRect = null;
+        let tx = 0, ty = 0;
+
+        function animate() {
+            if (!hovering) return;
+            // Smoothly interpolate to target
+            card.style.transform = `scale(1.04) rotateX(0deg) rotateY(0deg) translate(${tx}px, ${ty}px)`;
+            rafId = requestAnimationFrame(animate);
+        }
+
+        card.addEventListener('mouseenter', e => {
+            cardRect = card.getBoundingClientRect();
+            hovering = true;
+            card.style.transition = 'transform 0.18s cubic-bezier(.25,.46,.45,.94)';
+        });
+        card.addEventListener('mousemove', e => {
+            if (!cardRect) cardRect = card.getBoundingClientRect();
+            const x = e.clientX - cardRect.left;
+            const y = e.clientY - cardRect.top;
+            const centerX = cardRect.width / 2;
+            const centerY = cardRect.height / 2;
+            // Magnetic effect: max 18px offset
+            tx = (x - centerX) * 0.09;
+            ty = (y - centerY) * 0.09;
+            if (!rafId) animate();
+        });
+        card.addEventListener('mouseleave', () => {
+            hovering = false;
+            cancelAnimationFrame(rafId);
+            rafId = null;
+            tx = 0; ty = 0;
+            card.style.transition = 'transform 0.35s cubic-bezier(.25,.46,.45,.94)';
+            card.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg) translate(0,0)';
+        });
+    });
+}
+
+function add3DTiltToCards() {
+    const cards = document.querySelectorAll('#communitiesGrid .glass-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * 10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+            // Combine with magnetic effect if present
+            let tx = 0, ty = 0;
+            const match = card.style.transform.match(/translate\(([-\d.]+)px, ([-\d.]+)px\)/);
+            if (match) { tx = parseFloat(match[1]); ty = parseFloat(match[2]); }
+            card.style.transform = `scale(1.04) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translate(${tx}px, ${ty}px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'scale(1) rotateX(0deg) rotateY(0deg) translate(0,0)';
+        });
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'transform 0.2s cubic-bezier(.25,.46,.45,.94)';
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Reveal on scroll for community cards
+    function animateCommunityCards() {
+        const cards = document.querySelectorAll('#communitiesGrid > div');
+        if (!cards.length) return;
+        gsap.set(cards, { opacity: 0, y: 40 });
+        ScrollTrigger.batch(cards, {
+            onEnter: batch => gsap.to(batch, {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15,
+                duration: 0.7,
+                ease: 'power2.out',
+                overwrite: 'auto',
+                onComplete: () => {
+                    add3DTiltToCards();
+                    addMagneticHoverToCards();
+                    addTagRevealAnimation(cards);
+                }
+            }),
+            once: true,
+            start: 'top 90%'
+        });
+    }
+
+    // Initial animation
+    animateCommunityCards();
+    add3DTiltToCards();
+    addMagneticHoverToCards();
+    addTagRevealAnimation(document.querySelectorAll('#communitiesGrid > div'));
+
+    // If cards are loaded dynamically, re-run animation and tilt
+    const grid = document.getElementById('communitiesGrid');
+    if (grid) {
+        const observer = new MutationObserver(() => {
+            animateCommunityCards();
+            add3DTiltToCards();
+            addMagneticHoverToCards();
+            addTagRevealAnimation(document.querySelectorAll('#communitiesGrid > div'));
+        });
+        observer.observe(grid, { childList: true });
+    }
+});
 

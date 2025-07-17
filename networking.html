@@ -16,33 +16,46 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f0f4ff',
-                            100: '#e0e9ff',
-                            200: '#c7d6fe',
-                            300: '#a5b8fc',
-                            400: '#8b93f8',
-                            500: '#7c6df0',
-                            600: '#6d4de8',
-                            700: '#5b3bd5',
-                            800: '#4c32b3',
-                            900: '#402b8f'
+                            50: '#e6e8f5',
+                            100: '#cfd2e6',
+                            200: '#aeb3d1',
+                            300: '#7d82b0',
+                            400: '#4a4e7c',
+                            500: '#23264a', // deep navy
+                            600: '#181c3a', // deeper navy
+                            700: '#10122a',
+                            800: '#0a0c1a',
+                            900: '#05060d'
                         },
-                        secondary: {
-                            50: '#fdf2f8',
-                            100: '#fce7f3',
-                            200: '#fbcfe8',
-                            300: '#f9a8d4',
-                            400: '#f472b6',
-                            500: '#ec4899',
-                            600: '#db2777',
-                            700: '#be185d',
-                            800: '#9d174d',
-                            900: '#831843'
+                        accent: {
+                            500: '#e53945', // vibrant red
+                        },
+                        white: '#ffffff',
+                        gray: {
+                            100: '#f5f6fa',
+                            200: '#e6e8f0',
+                            300: '#cfd2e0',
+                            400: '#b0b3c6',
+                            500: '#8a8da6',
+                            600: '#6a6d85',
+                            700: '#4a4c5c',
+                            800: '#2a2b33',
+                            900: '#181a1f'
                         }
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'display': ['Oswald', 'Inter', 'system-ui', 'sans-serif'],
                         'serif': ['Playfair Display', 'serif']
+                    },
+                    borderRadius: {
+                        'xl': '1.25rem',
+                        '2xl': '2rem',
+                        '3xl': '3rem',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.18)',
+                        'accent': '0 4px 24px 0 rgba(229, 57, 69, 0.18)'
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
@@ -82,19 +95,24 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     
     <style>
+        body {
+            background: #181c3a !important;
+            color: #fff;
+        }
         /* Custom styles for enhanced animations */
         .hero-gradient {
-            background: linear-gradient(135deg, #7c6df0 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #181c3a 0%, #23264a 100%) !important;
         }
         
         .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         }
         
         .text-gradient {
-            background: linear-gradient(135deg, #7c6df0, #ec4899);
+            background: linear-gradient(135deg, #fff, #e53945);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -102,16 +120,22 @@
         
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
         }
         
         .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 16px 48px 0 rgba(229, 57, 69, 0.18);
         }
         
         .btn-ripple {
             position: relative;
             overflow: hidden;
+            background: #e53945;
+            color: #fff;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 24px 0 rgba(229, 57, 69, 0.18);
         }
         
         .btn-ripple::before {
@@ -127,6 +151,11 @@
         
         .btn-ripple:hover::before {
             left: 100%;
+        }
+        
+        .btn-ripple:hover {
+            background: #fff;
+            color: #e53945;
         }
         
         /* Connection Web Styles */
@@ -262,6 +291,24 @@
         .card-hover {
             opacity: 1 !important;
             pointer-events: auto !important;
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .glass-card:hover {
+            box-shadow: 0 16px 48px 0 rgba(229, 57, 69, 0.18);
+            transform: scale(1.04);
+        }
+        .interest-card.selected {
+            background: #e53945;
+            color: #fff;
+        }
+        .scroll-indicator {
+            color: #fff;
         }
     </style>
 </head>
