@@ -365,55 +365,109 @@ class NewsSectionManager {
     }
     
     generateMockNews() {
-        const categories = ['technology', 'education', 'career'];
-        const titles = [
-            'The Future of AI in Education',
-            'Remote Learning Best Practices',
-            'Career Growth in Tech Industry',
-            'Building Effective Learning Communities',
-            'Digital Transformation in Education',
-            'Networking Strategies for Professionals',
-            'Emerging Technologies in 2024',
-            'Skills for the Future Workforce',
-            'Online Education Trends',
-            'Professional Development Tips',
-            'Innovation in EdTech',
-            'Building Your Personal Brand'
+        return [
+            {
+                id: 1,
+                title: "How AI is Changing Education",
+                category: "technology",
+                excerpt: "AI is revolutionizing classrooms and learning experiences worldwide.",
+                image: "assets/FutureOfAIiNEd.jpg",
+                author: "Jane Smith",
+                date: "7/1/2025",
+                readTime: 8,
+                content: `<p>Artificial Intelligence (AI) is transforming education by making learning more personalized, accessible, and efficient. With AI-powered tools, students can receive customized lesson plans, instant feedback, and adaptive assessments that cater to their unique learning pace and style. Virtual tutors and chatbots provide 24/7 academic support, while AI analytics help educators identify struggling students early. Moreover, AI enables automation of administrative tasks, allowing teachers to focus more on teaching. From smart classrooms to language translation and inclusive learning for students with disabilities, AI is revolutionizing the way knowledge is delivered and received, shaping the future of education.</p>`
+            },
+            {
+                id: 2,
+                title: "Remote Learning: What Works?",
+                category: "education",
+                excerpt: "Discover the best practices for effective remote learning.",
+                image: "assets/RemoteLearnngBest.jpg",
+                author: "John Doe",
+                date: "6/28/2025",
+                readTime: 6,
+                content: `<p>Remote learning has become a vital part of modern education, especially after the pandemic. What makes it effective is a mix of engaging content, interactive tools, and strong teacher-student communication. Platforms like Zoom, Google Classroom, and Microsoft Teams support live classes and discussions, while recorded lectures offer flexibility. Clear schedules, regular feedback, and active participation help maintain focus. Visual aids, quizzes, and breakout rooms keep students involved. Most importantly, a supportive learning environment at home plays a key role. When thoughtfully planned and supported by technology, remote learning can be just as impactful as classroom education.</p>`
+            },
+            {
+                id: 3,
+                title: "Career Growth in Tech",
+                category: "career",
+                excerpt: "Tips and strategies for advancing your tech career.",
+                image: "assets/CarrierGrowthInTech.jpg",
+                author: "Priya Patel",
+                date: "6/25/2025",
+                readTime: 5,
+                content: `<p>The tech industry offers vast opportunities for career growth, driven by constant innovation and high demand for skilled professionals. Fields like software development, cybersecurity, data science, AI, and cloud computing are rapidly expanding. Career advancement in tech depends on continuous learning, gaining hands-on experience, and staying updated with emerging tools and frameworks. Certifications, personal projects, and contributions to open-source platforms can enhance your profile. Soft skills like communication, teamwork, and adaptability also play a crucial role. With dedication and curiosity, tech professionals can move from entry-level roles to leadership positions, freelancing, or even launching their own startups.</p>`
+            },
+            {
+                id: 4,
+                title: "Building Effective Learning Communities",
+                category: "education",
+                excerpt: "Learn how to foster collaboration and engagement in online communities.",
+                image: "assets/BuildingEffectLearnComm.jpg",
+                author: "Alex Kim",
+                date: "6/20/2025",
+                readTime: 7,
+                content: `<p>An effective learning community fosters collaboration, shared goals, and mutual growth among its members. Whether in a classroom or online platform, these communities thrive on open communication, respect, and active participation. Students learn better when they feel supported and heard. Educators can encourage this by creating group activities, discussion forums, and peer mentoring programs. Technology also plays a key role—tools like discussion boards, video calls, and shared resources help maintain engagement. Most importantly, trust and a sense of belonging make learners more motivated and confident. A strong learning community transforms education from a solo journey into a shared experience.</p>`
+            },
+            {
+                id: 5,
+                title: "Digital Transformation in Education",
+                category: "technology",
+                excerpt: "Explore the impact of digital tools on modern education systems.",
+                image: "assets/DigitalTransformationInEd.jpg",
+                author: "Maria Garcia",
+                date: "6/15/2025",
+                readTime: 9,
+                content: `<p>Digital transformation is reshaping education by integrating technology into every aspect of teaching and learning. Traditional classrooms are evolving into smart, connected environments powered by digital tools like learning management systems, interactive whiteboards, and virtual labs. Online courses, e-books, and AI-driven platforms make education more accessible and personalized. Teachers can now track student performance in real-time, while students benefit from flexible, self-paced learning. This shift not only enhances engagement and efficiency but also prepares learners for a tech-driven world. As digital tools become essential, education is no longer limited by location or time—it becomes a continuous, connected experience.</p>`
+            },
+            {
+                id: 6,
+                title: "Networking Strategies for Professionals",
+                category: "career",
+                excerpt: "Effective networking tips for career advancement in any industry.",
+                image: "assets/NetworkingStatsForProf.jpg",
+                author: "Liam Chen",
+                date: "6/10/2025",
+                readTime: 4,
+                content: `<p>Effective networking is essential for career growth, collaboration, and new opportunities. Professionals can start by building genuine connections through industry events, webinars, and online platforms like LinkedIn. It's important to engage actively—ask questions, share insights, and offer help before seeking it. Maintaining relationships with former colleagues, mentors, and peers can open unexpected doors. Joining professional groups or associations also expands your circle. Follow up after meetings with a personalized message to stay on their radar. Remember, networking isn’t just about collecting contacts—it’s about building trust and long-term value through meaningful, two-way relationships.</p>`
+            },
+            {
+                id: 7,
+                title: "Skills for the Future Workforce",
+                category: "technology",
+                excerpt: "Essential skills needed to thrive in tomorrow's job market.",
+                image: "assets/SkillsForFututre.jpg",
+                author: "Emily Turner",
+                date: "6/3/2025",
+                readTime: 6,
+                content: `<p>As technology reshapes industries, the future workforce must develop a blend of technical and human-centric skills. Critical thinking, creativity, and adaptability are essential for solving complex problems in a rapidly changing world. Digital literacy, data analysis, and familiarity with AI and automation tools will be increasingly valuable. Equally important are soft skills like communication, emotional intelligence, and collaboration, especially in diverse and remote teams. Lifelong learning is key—those who continuously upgrade their skills will stay relevant. In the future, success won’t depend on just what you know, but how quickly you can learn, unlearn, and innovate.
+
+</p>`
+            },
+            {
+                id: 8,
+                title: "Online Education Trends",
+                category: "education",
+                excerpt: "The latest trends shaping the world of online learning.",
+                image: "assets/OnlineEDTrends.jpg",
+                author: "Michael Brown",
+                date: "5/30/2025",
+                readTime: 5,
+                content: `<p>Online education is evolving rapidly, driven by technology and changing learner needs. Key trends include personalized learning through AI, where platforms adapt content to individual progress. Microlearning—short, focused lessons—is gaining popularity for its convenience. Hybrid models combining online and in-person experiences offer flexibility and structure. Tools like virtual labs, AR/VR simulations, and interactive assessments are enhancing engagement. Additionally, credentialing through blockchain ensures secure, verifiable records. Platforms are also focusing on community-driven learning, using forums and peer collaboration. As digital access improves, online education is becoming more inclusive, scalable, and skill-oriented, preparing learners for the demands of a future-ready workforce.</p>`
+            },
+            {
+                id: 9,
+                title: "Professional Development Tips",
+                category: "career",
+                excerpt: "Actionable tips for continuous professional growth.",
+                image: "assets/PersonalDevTips.jpg",
+                author: "Sophie Martin",
+                date: "5/28/2025",
+                readTime: 7,
+                content: `<p>Investing in professional development is essential for career growth and adaptability. Start by setting clear, achievable goals aligned with your interests and industry demands. Stay current by attending webinars, workshops, and conferences, or enrolling in online courses and certifications. Reading industry blogs or following thought leaders can keep you updated on trends. Build a strong network—mentors and peers offer guidance and opportunities. Reflect regularly on your strengths and areas for improvement, and seek constructive feedback. Most importantly, maintain a mindset of lifelong learning. Consistent skill-building and self-improvement can open doors to new roles, promotions, and long-term success.</p>`
+            }
         ];
-<<<<<<< HEAD
-        
-=======
-
-        const myImages = {
-            'The Future of AI in Education': 'assets/FutureO.jpg',
-            'Remote Learning Best Practices': 'assets/RemoteLearnngB.jpg',
-            'Career Growth in Tech Industry': 'assets/CarrierG.jpg',
-            'Building Effective Learning Communities': 'assets/BuildingE.jpg',
-            'Digital Transformation in Education': 'assets/DigitalT.jpg',
-            'Networking Strategies for Professionals': 'assets/NetworkingS.jpg',
-            'Emerging Technologies in 2024': 'assets/EmergingT.jpg',
-            'Skills for the Future Workforce': 'assets/SkillsF.jpg',
-            'Online Education Trends': 'assets/OnlineE.jpg',
-            'Professional Development Tips': 'assets/PersonalD.jpg',
-            'Innovation in EdTech': 'assets/InnovationE.jpeg',
-            'Building Your Personal Brand': 'assets/personalB.png'
-        };
-
->>>>>>> master
-        return Array.from({ length: 24 }, (_, index) => ({
-            id: index + 1,
-            title: titles[index % titles.length],
-            category: categories[index % categories.length],
-            excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-<<<<<<< HEAD
-            image: `https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=250&fit=crop`,
-=======
-            image: myImages[titles[index % titles.length]] || 'assets/default.jpg',
->>>>>>> master
-            author: `Author ${index + 1}`,
-            date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-            readTime: Math.floor(Math.random() * 10) + 3
-        }));
     }
     
     setupFilters() {
@@ -576,16 +630,7 @@ class NewsSectionManager {
                             </div>
                         </div>
                         <div class="prose max-w-none">
-                            <p class="text-lg text-gray-700 leading-relaxed mb-6">${article.excerpt}</p>
-                            <p class="text-gray-700 leading-relaxed mb-4">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                            <p class="text-gray-700 leading-relaxed mb-4">
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p class="text-gray-700 leading-relaxed">
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                            </p>
+                            ${article.content}
                         </div>
                     </div>
                 </div>
