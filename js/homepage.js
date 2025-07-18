@@ -380,13 +380,36 @@ class NewsSectionManager {
             'Innovation in EdTech',
             'Building Your Personal Brand'
         ];
+<<<<<<< HEAD
         
+=======
+
+        const myImages = {
+            'The Future of AI in Education': 'assets/FutureO.jpg',
+            'Remote Learning Best Practices': 'assets/RemoteLearnngB.jpg',
+            'Career Growth in Tech Industry': 'assets/CarrierG.jpg',
+            'Building Effective Learning Communities': 'assets/BuildingE.jpg',
+            'Digital Transformation in Education': 'assets/DigitalT.jpg',
+            'Networking Strategies for Professionals': 'assets/NetworkingS.jpg',
+            'Emerging Technologies in 2024': 'assets/EmergingT.jpg',
+            'Skills for the Future Workforce': 'assets/SkillsF.jpg',
+            'Online Education Trends': 'assets/OnlineE.jpg',
+            'Professional Development Tips': 'assets/PersonalD.jpg',
+            'Innovation in EdTech': 'assets/InnovationE.jpeg',
+            'Building Your Personal Brand': 'assets/personalB.png'
+        };
+
+>>>>>>> master
         return Array.from({ length: 24 }, (_, index) => ({
             id: index + 1,
             title: titles[index % titles.length],
             category: categories[index % categories.length],
             excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+<<<<<<< HEAD
             image: `https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=250&fit=crop`,
+=======
+            image: myImages[titles[index % titles.length]] || 'assets/default.jpg',
+>>>>>>> master
             author: `Author ${index + 1}`,
             date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
             readTime: Math.floor(Math.random() * 10) + 3
