@@ -415,18 +415,68 @@ class CommunitiesDataManager {
             'Graphic Designers', 'Content Creators', 'Product Managers', 'Cybersecurity Experts',
             'Cloud Computing', 'Game Developers', 'Frontend Masters', 'Backend Engineers'
         ];
+
+        // Provision for custom images: Add your own image paths here, in order matching your communities
+        const communityImages = [
+            'assets/web-development.jpg',
+            'assets/AImL.jpg',
+            'assets/DesignMaster.jpg',
+            'assets/StartUp.jpg',
+            'assets/DataScience.jpg',
+            'assets/UiUx.jpg',
+            'assets/ReactDev.jpg',
+            'assets/Python.jpg',
+            'assets/DigitalMarketjpg.jpg',
+            'assets/Blockchain.jpg',
+            'assets/MobileAppDev.jpg',
+            'assets/DevOpS.jpg',
+            'assets/GraphicDes.jpg',
+            'assets/ContentCreat.jpg',
+            'assets/ProdManage.jpg',
+            'assets/Cybersecur.jpg',
+            'assets/CloudComp.jpg',
+            'assets/GameDev.jpg',
+            'assets/frontenddev.jpg',
+            'assets/Backendengi.jpg',
+            // Add more image paths as needed
+        ];
+
+        // Unique short descriptions for each community
+        const communityDescriptions = [
+            "Connect, learn, and grow with fellow web developers.",
+            "Explore the world of artificial intelligence and machine learning.",
+            "A creative hub for design enthusiasts and professionals.",
+            "Network and share insights with startup founders.",
+            "Dive into data science, analytics, and big data trends.",
+            "Discuss the latest in UI/UX design and best practices.",
+            "All things React! Share, learn, and build together.",
+            "A space for Python programmers of all levels.",
+            "Master digital marketing strategies and tools.",
+            "Blockchain technology, crypto, and decentralized apps.",
+            "Mobile app development for iOS and Android platforms.",
+            "DevOps culture, tools, and automation discussions.",
+            "Graphic design inspiration, tips, and portfolio sharing.",
+            "Content creators unite! Share ideas and grow your audience.",
+            "Product management strategies, tools, and career advice.",
+            "Cybersecurity news, best practices, and resources.",
+            "Cloud computing trends, providers, and architectures.",
+            "Game development, design, and industry news.",
+            "Frontend development frameworks, tools, and tips.",
+            "Backend engineering, APIs, and server-side tech."
+        ];
         
         return Array.from({ length: 50 }, (_, index) => ({
             id: index + 1,
             name: communityNames[index % communityNames.length],
-            description: 'A vibrant community of learners and professionals sharing knowledge and growing together.',
+            description: communityDescriptions[index % communityDescriptions.length],
             category: categories[index % categories.length],
             activity: activities[index % activities.length],
             size: sizes[index % sizes.length],
             memberCount: Math.floor(Math.random() * 5000) + 100,
             postCount: Math.floor(Math.random() * 1000) + 50,
             resourceCount: Math.floor(Math.random() * 100) + 10,
-            image: `https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=300&fit=crop`,
+            // Use custom image if available, otherwise fallback to Unsplash
+            image: communityImages[index % communityImages.length] || `https://images.unsplash.com/photo-${1500000000000 + index}?w=400&h=300&fit=crop`,
             tags: this.generateTags(categories[index % categories.length]),
             featured: index < 6,
             createdAt: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000)
@@ -490,49 +540,44 @@ class CommunitiesDataManager {
     
     createCommunityCard(community) {
         const card = document.createElement('div');
-        card.className = 'community-card glass-card animated-border p-8 rounded-3xl shadow-xl mb-4 cursor-pointer';
+        card.className = 'community-card glass-card bg-primary-800 animated-border p-8 rounded-3xl shadow-xl mb-4 cursor-pointer';
         card.setAttribute('data-community-id', community.id);
         
         card.innerHTML = `
-            <div class="aspect-video bg-gray-200 overflow-hidden rounded-2xl mb-4">
+            <div class="aspect-video overflow-hidden rounded-2xl mb-4">
                 <img src="${community.image}" alt="${community.name}" 
                      class="w-full h-full object-cover transition-transform duration-300 hover:scale-105 rounded-2xl"
                      onerror="this.src='https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop'">
             </div>
             <div>
                 <div class="flex items-center justify-between mb-3">
-                    <span class="px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-sm font-medium capitalize">
+                    <span class="px-3 py-1 bg-white/10 text-primary-200 rounded-full text-sm font-medium capitalize">
                         ${community.category}
                     </span>
                     <div class="flex items-center space-x-1">
                         <div class="w-2 h-2 rounded-full ${this.getActivityColor(community.activity)}"></div>
-                        <span class="text-xs text-gray-500 capitalize">${community.activity.replace('-', ' ')}</span>
+                        <span class="text-xs text-gray-200 capitalize">${community.activity.replace('-', ' ')}</span>
                     </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">${community.name}</h3>
-                <p class="text-gray-600 mb-4 line-clamp-2">${community.description}</p>
+                <h3 class="text-xl font-bold text-white mb-2">${community.name}</h3>
+                <p class="text-gray-200 mb-4 line-clamp-2">${community.description}</p>
                 <div class="card-tags flex flex-wrap gap-2 mb-4">
                     ${community.tags.map(tag => `
-                        <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-xs">${tag}</span>
+                        <span class="px-2 py-1 bg-white/10 text-primary-100 rounded-md text-xs">${tag}</span>
                     `).join('')}
                 </div>
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-4 text-sm text-gray-500">
+                    <div class="flex items-center space-x-4 text-sm text-gray-300">
                         <span><i class="fas fa-users mr-1"></i>${community.memberCount.toLocaleString()}</span>
                         <span><i class="fas fa-edit mr-1"></i>${community.postCount}</span>
                     </div>
-                    <button class="text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                    <button class="text-primary-200 hover:text-primary-100 transition-colors duration-200">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
         `;
-        
-        // Add click handler
-        card.addEventListener('click', () => {
-            this.openCommunityModal(community);
-        });
-        
+        // Remove the direct click handler here to allow the global modal trigger to work
         return card;
     }
     

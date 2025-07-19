@@ -603,7 +603,16 @@ class ModalManager {
     loadModalContent(modalId, triggerElement) {
         // This method would be extended by page-specific scripts
         // to load actual content based on the trigger element
-        console.log(`Loading content for ${modalId} from`, triggerElement);
+        // Custom logic for communities page
+        if (modalId === 'communityModal' && window.CommunitiesPage && window.CommunitiesPage.dataManager) {
+            // Find the community id from the card
+            const communityId = triggerElement.getAttribute('data-community-id');
+            const community = window.CommunitiesPage.dataManager.allCommunities.find(c => c.id == communityId);
+            if (community) {
+                window.CommunitiesPage.dataManager.loadCommunityModalContent(community);
+            }
+        }
+        // You can add similar logic for other modals if needed
     }
 }
 
